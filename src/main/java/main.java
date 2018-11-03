@@ -1,4 +1,4 @@
-
+import java.util.*;
 import java.io.*;
 import java.util.Arrays;
 import java.util.concurrent.Executors;
@@ -18,6 +18,8 @@ public class main {
         listen listen = new listen();
         OnGetMessageListener MessageRespone = new MessageResponse();
         listen.MountListener(MessageRespone);
+        boolean isWindows = isWindows()
+        send.send(nickname, isWindows);
         listen.CheckResponse();
     }
 
