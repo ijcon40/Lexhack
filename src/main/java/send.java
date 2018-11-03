@@ -1,13 +1,14 @@
+import java.io.IOException;
 import java.util.*;
 
 public class send {
 
-    public static void send(String nickname, boolean isWindows) {
+    public static void send(String nickname, boolean isWindows) throws IOException {
         if(isWindows) {
             Scanner input = new Scanner(System.in);
-            String message, name;
+            String message;
             while (true) {
-                String message = input.nextLine();
+                message = input.nextLine();
                 if (stopCheck(message)) {
                     break;
                 }
@@ -15,9 +16,9 @@ public class send {
             }
         } else {
             Scanner input = new Scanner(System.in);
-            String message, name;
+            String message;
             while (true) {
-                String message = input.nextLine();
+                message = input.nextLine();
                 if (stopCheck(message)) {
                     break;
                 }

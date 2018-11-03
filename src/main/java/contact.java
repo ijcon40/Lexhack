@@ -1,17 +1,19 @@
 import java.util.*;
 
 public class contact {
+    private String name;
+    private String localIP;
+    private String publicIP;
+    private String nickname;
 
     public contact(String name, String localIP, String publicIP, String nickname) {
-        String name;
-        String localIP;
-        String publicIP;
-        String nickname;
+        this.name = name;
+        this.localIP= localIP;
+        this.publicIP= publicIP;
+        this.nickname= nickname;
     }
 
-    public static contact[] loadContacts() {
 
-    }
 
     public static contact newContact() {
         Scanner input = new Scanner(System.in);
