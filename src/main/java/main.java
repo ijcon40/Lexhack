@@ -21,6 +21,7 @@ public class main {
         boolean isWindows = isWindows()
         send.send(nickname, isWindows);
         listen.CheckResponse();
+        System.out.println("ok this is epic");
     }
 
     public static void startcontacts()throws IOException{
