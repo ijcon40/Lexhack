@@ -1,32 +1,33 @@
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.concurrent.Executors;
 import java.util.function.*;
+
 
 public class main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
+
+    }
+
+    private static void sendPacket(String packet)throws IOException, InterruptedException{
         boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
         boolean isLinux = System.getProperty("os.name").toLowerCase().startsWith("linux");
         String LocalDirectory = System.getProperty("user.home");
+        String Command;
+        ProcessBuilder processBuilder = new ProcessBuilder();
         if (isWindows){
-            try {
-                Process process = Runtime.getRuntime().exec(String.format("cmd.exe /c dir %s", LocalDirectory));
-            }
-            catch(IOException err) {
-                System.out.println(err);
-            }
+            processBuilder.command("cmd.exe", "/c", "dir");
         }
-        else if (isLinux){
-            try {
-                Process process = Runtime.getRuntime().exec(String.format("cmd.exe /c dir %s", LocalDirectory));
-            }
-            catch(IOException err) {
-                System.out.println(err);
-            }
+        else{
+            processBuilder.command("sh",  "-c", "ls");
         }
+        processBuilder.directory(new File(LocalDirectory));
+        Process process = processBuilder.start();
+        StreamGobbler CMDIO = new StreamGobbler(process.getInputStream(), System.out::println);
+        Executors.newSingleThreadExecutor().submit(CMDIO);
+        int exitcode = process.waitFor();
+        assert exitcode==0;
     }
 
     private static class StreamGobbler implements Runnable {
