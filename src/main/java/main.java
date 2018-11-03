@@ -13,6 +13,11 @@ public class main {
         } else {
             connect.open();
         }
+
+        listen listen = new listen();
+        OnGetMessageListener MessageRespone = new MessageResponse();
+        listen.MountListener(MessageRespone);
+        listen.CheckResponse();
     }
 
     private static void sendPacket(String packet, String ip)throws IOException, InterruptedException{
@@ -31,7 +36,7 @@ public class main {
 
     private static boolean hasnc()throws IOException{
         boolean installed = true;
-        Process process = Runtime.getRuntime().exec("cmd /C netcat");
+        Process process = Runtime.getRuntime().exec("cmd /C ncat");
         BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line;
         BufferedReader error = new BufferedReader(new InputStreamReader(process.getErrorStream()));

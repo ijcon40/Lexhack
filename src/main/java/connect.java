@@ -1,22 +1,19 @@
-
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class connect {
 
-    public static void open() {
+    public static void open(String contacts) throws IOException {
         if(isWindows()) {
-
+            Runtime.getRuntime().exec("cmd /C ncat "+contacts+" "+getPort());
         } else {
-            String ip = askIp();
-            Runtime.getRuntime().exec("/bin/bash -c netcat " + ip + getPort());
+            Runtime.getRuntime().exec("/bin/bash -c netcat" + contacts+" "+getPort());
             System.out.println("trying connection");
         }
     }
 
-    public static void listen() {
-        int port = getPort();
-        Runtime.getRuntime().exec("/bin/bash -c netcat -l -p " + port);
-        System.out.println("lisening on port " + port);
-    }
 
     private static boolean isLinux() {
         return System.getProperty("os.name").toLowerCase().startsWith("linux");
@@ -26,7 +23,7 @@ public class connect {
         return System.getProperty("os.name").toLowerCase().startsWith("windows");
     }
 
-    private static int getPort() {
+    public static int getPort() {
         return 6443;
     }
 
@@ -38,8 +35,10 @@ public class connect {
         return ip;
     }
 
-    private static String getIPLinux() {
-        String ip;
-        ip = Runtime.getRuntime().exec("/bin/bash -c curl -s http://icanhazip.com");
+    private static String getIPLinux() throws IOException{
+        Process getip;
+        getip = Runtime.getRuntime().exec("/bin/bash -c curl -s http://icanhazip.com");
+        BufferedReader in = new BufferedReader(new InputStreamReader(getip.getInputStream()));
+        return(in.readLine());
     }
 }
