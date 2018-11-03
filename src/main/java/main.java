@@ -13,25 +13,13 @@ public class main {
         System.out.print("pick a nickname : ");
         String nickname = input.next();
         System.out.println();
-        // start up finished
         contact[] contactBook = new contact[100];
         listen listen = new listen();
-        OnGetMessageListener MessageRespone = new MessageResponse();
-        listen.MountListener(MessageRespone);
-        boolean isWindows = isWindows()
+        boolean isWindows = isWindows();
         send.send(nickname, isWindows);
-        listen.CheckResponse();
         System.out.println("ok this is epic");
     }
 
-    public static void startcontacts()throws IOException{
-        if(isWindows()) {
-            System.out.println(hasnc());
-        } else {
-            connect.open();
-        }
-
-    }
 
     public static void loadContacts(contact[] contactBook) {
         for(int i=0;i<contactBook.length;i++) {
@@ -62,7 +50,6 @@ public class main {
     private static boolean hasnc()throws IOException{
         boolean installed = true;
         Process process = Runtime.getRuntime().exec("cmd /C ncat");
-        BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line;
         BufferedReader error = new BufferedReader(new InputStreamReader(process.getErrorStream()));
         if (error.readLine()!=null){
