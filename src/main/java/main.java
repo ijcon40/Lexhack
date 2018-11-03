@@ -8,13 +8,25 @@ import java.util.function.*;
 public class main {
 
     public static void main(String[] args) throws IOException, InterruptedException{
-        System.out.println(hasnc());
+        if(isWindows()) {
+            System.out.println(hasnc());
+        } else {
+            connect.open();
+        }
     }
 
     private static void sendPacket(String packet, String ip)throws IOException, InterruptedException{
         boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
         String LocalDirectory = System.getProperty("user.home");
 
+    }
+
+    private static boolean isLinux() {
+        return System.getProperty("os.name").toLowerCase().startsWith("linux");
+    }
+
+    private static boolean isWindows() {
+        return System.getProperty("os.name").toLowerCase().startsWith("windows");
     }
 
     private static boolean hasnc()throws IOException{
