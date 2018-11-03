@@ -25,6 +25,7 @@ public class contact {
         System.out.print("\n + enter public IP : ");
         publicIP = input.next();
         contact one = new contact(name,localIP,publicIP,nickname);
+
         return one;
     }
 }

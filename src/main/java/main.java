@@ -8,7 +8,13 @@ import java.util.function.*;
 public class main {
 
     public static void main(String[] args) throws IOException, InterruptedException{
-
+        Scanner input = new Scanner(System.in);
+        System.out.println("to stop writing messages, write \"*stop*\"");
+        System.out.print("pick a nickname : ");
+        String nickname = input.next();
+        System.out.println();
+        // start up finished
+        contact[] contactBook = new contact[100];
         listen listen = new listen();
         OnGetMessageListener MessageRespone = new MessageResponse();
         listen.MountListener(MessageRespone);
@@ -22,6 +28,18 @@ public class main {
             connect.open();
         }
 
+    }
+
+    public static void loadContacts(contact[] contactBook) {
+        for(int i=0;i<contactBook.length;i++) {
+
+        }
+    }
+
+    public static void saveContacts(contact[] contactBook) throws IOException {
+        for(int i=0;i<contactBook.length;i++) {
+
+        }
     }
 
     private static void sendPacket(String packet, String ip)throws IOException, InterruptedException{
