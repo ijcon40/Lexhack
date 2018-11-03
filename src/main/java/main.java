@@ -8,16 +8,20 @@ import java.util.function.*;
 public class main {
 
     public static void main(String[] args) throws IOException, InterruptedException{
+
+        listen listen = new listen();
+        OnGetMessageListener MessageRespone = new MessageResponse();
+        listen.MountListener(MessageRespone);
+        listen.CheckResponse();
+    }
+
+    public static void startcontacts()throws IOException{
         if(isWindows()) {
             System.out.println(hasnc());
         } else {
             connect.open();
         }
 
-        listen listen = new listen();
-        OnGetMessageListener MessageRespone = new MessageResponse();
-        listen.MountListener(MessageRespone);
-        listen.CheckResponse();
     }
 
     private static void sendPacket(String packet, String ip)throws IOException, InterruptedException{
