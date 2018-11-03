@@ -6,24 +6,23 @@ import java.util.function.*;
 
 public class main {
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws IOException, InterruptedException{
+        sendPacket("Hello", "192.168.43.113");
     }
 
-    private static void sendPacket(String packet)throws IOException, InterruptedException{
+    private static void sendPacket(String packet, String ip)throws IOException, InterruptedException{
         boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
-        boolean isLinux = System.getProperty("os.name").toLowerCase().startsWith("linux");
         String LocalDirectory = System.getProperty("user.home");
-        String Command;
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (isWindows){
-            processBuilder.command("cmd.exe", "/c", "dir");
+            processBuilder.command("cmd.exe", "/c", "ssh "+ip+" "+"\""+packet+"\"");
         }
         else{
-            processBuilder.command("sh",  "-c", "ls");
+            processBuilder.command("bin/bash",  "-c", "ssh "+ip+" "+"\""+packet+"\"");
         }
         processBuilder.directory(new File(LocalDirectory));
         Process process = processBuilder.start();
+        System.out.print(processBuilder.command());
         StreamGobbler CMDIO = new StreamGobbler(process.getInputStream(), System.out::println);
         Executors.newSingleThreadExecutor().submit(CMDIO);
         int exitcode = process.waitFor();
