@@ -1,52 +1,37 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-
-interface OnGetMessageListener{
-   void OnGetMessage(String Message);
-}
-
+import java.util.Scanner;
 
 public class listen {
-    private OnGetMessageListener listener;
     private Process process;
-
-    public void MountListener(OnGetMessageListener Listener){
-        this.listener = Listener;
-    }
-
-    public void CheckResponse(){
-        new Thread(new Runnable() {
-            public void run(){
-                BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-                while(true){
-                    try {
-                        String line;
-                        line =reader.readLine();
-                    if (line==null){
-                        listener.OnGetMessage(line);
-                    }
-                    }
-                    catch(IOException err){
-                        System.out.println(err);
-                    }
-
-                }
-
-            }
-        });
-    }
-
 
     public listen() throws IOException {
         int port = connect.getPort();
-        this.process=Runtime.getRuntime().exec("/bin/bash -c netcat -l -p " + port);
-        System.out.println("listening on port " + port);
+        if (!System.getProperty("os.name").toLowerCase().startsWith("windows")) {
+            this.process = Runtime.getRuntime().exec("/bin/bash -c netcat -l -p " + port);
+            System.out.println("listening on port " + port);
+        }
+        else{
+            this.process = Runtime.getRuntime().exec("cmd /C ncat -l -p "+port);
+            System.out.println("listening on port " + port);
+        }
+        Thread Asynch = new Thread(new Runnable() {
+            @Override
+            public void run() {
+            Scanner Reader = new Scanner((process.getInputStream()));
+            String line;
+            do {
+                line = Reader.hasNextLine()?Reader.nextLine():null;
+                if (line != null) {
+                    System.out.println(line);
+                }
+            }while(true);
+            }
+        });
+        Asynch.start();
+
+
     }
 }
 
-class MessageResponse implements OnGetMessageListener{
-    public void OnGetMessage(String Message){
-        System.out.println(Message);
-    }
-}
